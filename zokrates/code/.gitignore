@@ -1,0 +1,23 @@
+### Ignoring ZoKrate generated files
+
+# from cmd: zokrates compile -i square/square.zok
+# which: compile - Generates: `out` binary
+abi.json
+out
+
+# from cmd: zokrates setup
+# which: perform the setup phase - Generates: `proving.key` and `verification.key`
+proving.key
+verification.key
+
+# from cmd: zokrates compute-witness -a 337 113569
+# which: execute the program - Generates: `witness`
+witness
+
+# from cmd: zokrates generate-proof
+# which: generate a proof of computation - Generates: `proof.json`
+proof.json
+
+# from cmd: zokrates export-verifier
+# which: export a solidity verifier - Generates: `verifier.sol`
+verifier.sol
