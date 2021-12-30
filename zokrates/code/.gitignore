@@ -1,9 +1,10 @@
 ### Ignoring ZoKrate generated files
 
 # from cmd: zokrates compile -i square/square.zok
-# which: compile - Generates: `out` binary
+# which: compile - Generates: `abi.json`, and `out` binary (and `out.ztf` for older Zokrates versions)
 abi.json
 out
+out.ztf
 
 # from cmd: zokrates setup
 # which: perform the setup phase - Generates: `proving.key` and `verification.key`
