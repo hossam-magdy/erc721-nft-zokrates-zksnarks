@@ -1,3 +1,5 @@
+// Source: https://github.com/provable-things/ethereum-api/blob/master/oraclizeAPI_0.5.sol
+
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity >=0.5.0; // Incompatible compiler version - please select a compiler within the stated pragma range, or use a different version of the oraclizeAPI!
 
@@ -374,7 +376,7 @@ contract usingOraclize {
 
     modifier oraclizeAPI() {
         if ((address(OAR) == address(0)) || (getCodeSize(address(OAR)) == 0)) {
-            oraclize_setNetwork(networkID_auto);
+            oraclize_setNetwork();
         }
         if (address(oraclize) != OAR.getAddress()) {
             oraclize = OraclizeI(OAR.getAddress());
@@ -401,14 +403,6 @@ contract usingOraclize {
         );
         require(proofVerified);
         _;
-    }
-
-    function oraclize_setNetwork(uint8 _networkID)
-        internal
-        returns (bool _networkSet)
-    {
-        return oraclize_setNetwork();
-        _networkID; // silence the warning and remain backwards compatible
     }
 
     function oraclize_setNetworkName(string memory _network_name) internal {
@@ -480,19 +474,11 @@ contract usingOraclize {
         return false;
     }
 
-    function __callback(bytes32 _myid, string memory _result) public {
-        __callback(_myid, _result, new bytes(0));
-    }
-
-    function __callback(
-        bytes32 _myid,
-        string memory _result,
-        bytes memory _proof
-    ) public {
-        return;
-        _myid;
-        _result;
-        _proof; // Silence compiler warnings
+    function __callback() public pure {
+        // return;
+        // _myid;
+        // _result;
+        // _proof; // Silence compiler warnings
     }
 
     function oraclize_getPrice(string memory _datasource)
