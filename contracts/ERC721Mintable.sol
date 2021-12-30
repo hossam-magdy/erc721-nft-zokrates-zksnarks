@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.6.2;
+pragma solidity ^0.8.0;
 
-import "../node_modules/openzeppelin-solidity/contracts/utils/Address.sol";
-import "../node_modules/openzeppelin-solidity/contracts/utils/Counters.sol";
-import "../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
-import "../node_modules/openzeppelin-solidity/contracts/token/ERC721/IERC721Receiver.sol";
+import "../node_modules/@openzeppelin/contracts/utils/Address.sol";
+import "../node_modules/@openzeppelin/contracts/utils/Counters.sol";
+import "../node_modules/@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "../node_modules/@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import "./Provable.sol";
 
-contract Ownable {
+abstract contract Ownable {
     //  TODO's
     //  1) create a private '_owner' variable of type address with a public getter function
     //  2) create an internal constructor that sets the _owner var to the creater of the contract
@@ -21,7 +21,7 @@ contract Ownable {
 
     address private _owner;
 
-    constructor() internal {
+    constructor() {
         _setOwner(msg.sender);
     }
 
@@ -57,13 +57,13 @@ contract Ownable {
 //  4) create 'whenNotPaused' & 'paused' modifier that throws in the appropriate situation
 //  5) create a Paused & Unpaused event that emits the address that triggered the event
 
-contract Pausable is Ownable {
+abstract contract Pausable is Ownable {
     event Paused();
     event Unpaused();
 
     bool private _paused = false;
 
-    constructor() internal {
+    constructor() {
         _paused = false;
     }
 
@@ -94,7 +94,7 @@ contract Pausable is Ownable {
 }
 
 // https://eips.ethereum.org/EIPS/eip-165
-contract ERC165 {
+abstract contract ERC165 {
     bytes4 private constant _INTERFACE_ID_ERC165 = 0x01ffc9a7;
     /*
      * 0x01ffc9a7 ===
@@ -110,7 +110,7 @@ contract ERC165 {
      * @dev A contract implementing SupportsInterfaceWithLookup
      * implement ERC165 itself
      */
-    constructor() internal {
+    constructor() {
         _registerInterface(_INTERFACE_ID_ERC165);
     }
 
@@ -179,7 +179,7 @@ contract ERC721 is Ownable, Pausable, ERC165 {
 
     bytes4 private constant _INTERFACE_ID_ERC721 = 0x80ac58cd;
 
-    constructor() public {
+    constructor() {
         // register the supported interfaces to conform to ERC721 via ERC165
         _registerInterface(_INTERFACE_ID_ERC721);
     }
@@ -373,6 +373,8 @@ contract ERC721 is Ownable, Pausable, ERC165 {
 }
 
 contract ERC721Enumerable is ERC165, ERC721 {
+    using SafeMath for uint256;
+
     // Mapping from owner to list of owned token IDs
     mapping(address => uint256[]) private _ownedTokens;
 
@@ -397,7 +399,7 @@ contract ERC721Enumerable is ERC165, ERC721 {
     /**
      * @dev Constructor function
      */
-    constructor() public {
+    constructor() {
         // register the supported interface to conform to ERC721Enumerable via ERC165
         _registerInterface(_INTERFACE_ID_ERC721_ENUMERABLE);
     }
@@ -578,14 +580,14 @@ contract ERC721Metadata is ERC721Enumerable, usingProvable {
      */
 
     constructor(
-        string memory name,
-        string memory symbol,
-        string memory baseTokenURI
-    ) public {
+        string memory __name,
+        string memory __symbol,
+        string memory __baseTokenURI
+    ) {
         // TODO: set instance var values
-        _name = name;
-        _symbol = symbol;
-        _baseTokenURI = baseTokenURI;
+        _name = __name;
+        _symbol = __symbol;
+        _baseTokenURI = __baseTokenURI;
 
         _registerInterface(_INTERFACE_ID_ERC721_METADATA);
     }
@@ -632,7 +634,6 @@ contract ERC721Metadata is ERC721Enumerable, usingProvable {
 
 contract ERC721MintableComplete is ERC721Metadata {
     constructor()
-        public
         ERC721Metadata(
             "HCustomERC721Token",
             "HNFT",
@@ -647,5 +648,6 @@ contract ERC721MintableComplete is ERC721Metadata {
     ) public onlyOwner returns (bool) {
         _mint(to, tokenId);
         _setTokenURI(tokenId, tokenURI);
+        return true;
     }
 }

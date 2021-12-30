@@ -4,21 +4,21 @@
 
 ```
 Truffle v5.4.25 (core: 5.4.25)
-Solidity - ^0.6.2 (solc-js)
+Solidity - 0.8.11 (solc-js)
 Node v14.18.1
 Web3.js v1.5.3
 ```
 
-## Using [ZoKrates](https://zokrates.github.io/gettingstarted.html) version `0.6.4`:
+## Using [ZoKrates](https://zokrates.github.io/gettingstarted.html) version `0.7.10`:
 
-`docker run -it -v ${PWD}/zokrates/code:/home/zokrates/code zokrates/zokrates:0.6.4 sh /home/zokrates/code/.run-zokrates.sh`
+`docker run -it -v ${PWD}/zokrates/code:/home/zokrates/code zokrates/zokrates:0.7.10 sh /home/zokrates/code/.run-zokrates.sh`
 
 > shortcut: `yarn zokrates-run`
 
 [OR] the detailed/manual version:
 
 ```sh
-docker run -it -v ${PWD}/zokrates/code:/home/zokrates/code zokrates/zokrates:0.6.4 /bin/bash
+docker run -it -v ${PWD}/zokrates/code:/home/zokrates/code zokrates/zokrates:0.7.10 /bin/bash
 cd /home/zokrates/code
 
 # ref: https://zokrates.github.io/gettingstarted.html
