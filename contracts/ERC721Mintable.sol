@@ -3,9 +3,9 @@ pragma solidity ^0.8.0;
 
 import "../node_modules/@openzeppelin/contracts/utils/Address.sol";
 import "../node_modules/@openzeppelin/contracts/utils/Counters.sol";
+import "../node_modules/@openzeppelin/contracts/utils/Strings.sol";
 import "../node_modules/@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "../node_modules/@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
-import "./Provable.sol";
 
 abstract contract Ownable {
     //  TODO's
@@ -561,7 +561,7 @@ contract ERC721Enumerable is ERC165, ERC721 {
     }
 }
 
-contract ERC721Metadata is ERC721Enumerable, usingProvable {
+contract ERC721Metadata is ERC721Enumerable {
     // TODO: Create private vars for token _name, _symbol, and _baseTokenURI (string)
     string private _name;
     string private _symbol;
@@ -613,13 +613,22 @@ contract ERC721Metadata is ERC721Enumerable, usingProvable {
 
     // TODO: Create an internal function to set the tokenURI of a specified tokenId
     // It should be the _baseTokenURI + the tokenId in string form
-    // TIP #1: use strConcat() from the imported oraclizeAPI lib to set the complete token URI
-    // TIP #2: you can also use uint2str() to convert a uint to a string
-    // see https://github.com/provable-things/ethereum-api/blob/master/oraclizeAPI_0.5.sol for strConcat()
     // require the token exists before setting
     function _setTokenURI(uint256 tokenId, string memory uri) internal {
         require(_exists(tokenId));
-        _tokenURIs[tokenId] = strConcat(uri, uint2str(tokenId));
+        _tokenURIs[tokenId] = strConcat(uri, Strings.toString(tokenId));
+    }
+
+    // The "strConcat" from Provable/Oraclize: https://github.com/provable-things/ethereum-api/blob/master/provableAPI_0.6.sol#L942
+    //   was always resulting into "out of gas" during `truffle test`
+    // https://ethereum.stackexchange.com/a/56337
+    // https://betterprogramming.pub/solidity-playing-with-strings-aca62d118ae5
+    function strConcat(string memory s1, string memory s2)
+        private
+        pure
+        returns (string memory)
+    {
+        return string(abi.encodePacked(s1, s2));
     }
 }
 
