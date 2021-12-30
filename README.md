@@ -1,8 +1,15 @@
 # Capstone Project: Decentralized Housing
 
-## Using [ZoKrates](https://zokrates.github.io/gettingstarted.html)
+## Versions used:
 
-Using version `0.7.10`:
+```
+Truffle v5.4.25 (core: 5.4.25)
+Solidity - ^0.6.2 (solc-js)
+Node v14.18.1
+Web3.js v1.5.3
+```
+
+## Using [ZoKrates](https://zokrates.github.io/gettingstarted.html) version `0.7.10`:
 
 `docker run -it -v ${PWD}/zokrates/code:/home/zokrates/code zokrates/zokrates:0.7.10 sh /home/zokrates/code/.run-zokrates.sh`
 
