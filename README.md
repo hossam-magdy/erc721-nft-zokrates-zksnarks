@@ -1,5 +1,12 @@
 # Capstone Project: Decentralized Housing
 
+## To test
+
+- Install [`truffle`](https://trufflesuite.com/docs/truffle/getting-started/installation) of the version mentioned below
+- Clone the repo
+- `yarn install`
+- `truffle test`
+
 ## Versions used:
 
 ```
