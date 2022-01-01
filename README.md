@@ -1,6 +1,6 @@
 # Capstone Project: Decentralized Housing
 
-## To test
+## To run tests
 
 - Install [`truffle`](https://trufflesuite.com/docs/truffle/getting-started/installation) of the version mentioned below
 - Clone the repo
@@ -14,23 +14,40 @@ Truffle v5.4.25 (core: 5.4.25)
 Solidity - 0.8.11 (solc-js)
 Node v14.18.1
 Web3.js v1.5.3
+ZoKrates v0.7.10
 ```
 
-## Using [ZoKrates](https://zokrates.github.io/gettingstarted.html) version `0.7.10`:
+## Deployment addresses
+
+On Rinkeby testnet:
+
+- Verifier Contract: [`0xb4f536f2e6cb9388a456f98a16a18936731b48bb`](https://rinkeby.etherscan.io/address/0xb4f536f2e6cb9388a456f98a16a18936731b48bb) (code verified and published on etherscan, i.e: calls and tx can be done from etherscan directly)
+  - Deployment TX: [`0xbc4eccc1f7821b5a08e096ec5d3413e8c33606b1766e52b1f3342ce631050770`](https://rinkeby.etherscan.io/tx/0xbc4eccc1f7821b5a08e096ec5d3413e8c33606b1766e52b1f3342ce631050770)
+- SolnSquareVerifier Contract (the contract linking `ERC721MintableComplete` with `Verifier` contracts): [`0xb30721f2c6873aeec65e43259804ee1541a34f45`](https://rinkeby.etherscan.io/address/0xb30721f2c6873aeec65e43259804ee1541a34f45) (code verified and published on etherscan)
+  - Deployment TX: [`0x7c89a150a346a435e7e3fdbc3407b2a9ed21f49d6c6187125b0179de25d01d06`](https://rinkeby.etherscan.io/tx/0x7c89a150a346a435e7e3fdbc3407b2a9ed21f49d6c6187125b0179de25d01d06)
+
+## Development
+
+### Using [ZoKrates](https://zokrates.github.io/gettingstarted.html):
 
 ![ZoKrates CLI](./zokrates.png)
 
-> shortcut: `yarn zokrates-all`
+shortcut cmd: `yarn zokrates-all`
 
 ```
 cd zokrates/code
 yarn zokrates compile -i ./square/square.zok
 yarn zokrates setup
-yarn zokrates compute-witness -a 337 113569
-yarn zokrates generate-proof # generates `proof.json`
+# generates witness with the args (fn inputs) 3 and 9 (3*3 == 9, so the inputs[1] should be 1)
+yarn zokrates compute-witness -a 3 9 && cp witness ./generated/witness1
+# generates `proof.json`
+yarn zokrates generate-proof && cp proof.json ./generated/proof1.json
 yarn zokrates export-verifier
 yarn zokrates-cp && yarn format
 ```
+
+For generating 10 proofs and witnesses (witness, contains the relealed info "square root"):
+`for i in {3..12}; do yarn zokrates compute-witness -a $(( i * 20 )) $(( i * i * 20 * 20 )) && cp witness ./generated/witness$(( i - 2 )) && yarn zokrates generate-proof && cp proof.json ./generated/proof$(( i - 2 )).json; done;`
 
 [OR] the detailed/manual version:
 

@@ -7,7 +7,7 @@
     "dev": "lite-server",
     "format": "prettier --ignore-path '.gitignore' --write '**/*.{sol,js,json,md}'",
     "test": "truffle test",
-    "zokrates": "docker run -it -v ${INIT_CWD}:/home/zokrates/code -w /home/zokrates/code zokrates/zokrates:0.7.10 zokrates",
+    "zokrates": "docker run -it -v ${PWD}/zokrates/code:/home/zokrates/code -w /home/zokrates/code zokrates/zokrates:0.7.10 zokrates",
     "zokrates-all": "yarn zokrates-run && yarn zokrates-cp && yarn format",
     "zokrates-run": "docker run -it -v ${PWD}/zokrates/code:/home/zokrates/code -w /home/zokrates/code zokrates/zokrates:0.7.10 sh .run-zokrates.sh",
     "zokrates-cp": "cp zokrates/code/verifier.sol contracts/Verifier.sol && cp zokrates/code/proof.json test/proof.json",
@@ -19,7 +19,9 @@
     "lite-server": "^2.6.1"
   },
   "dependencies": {
+    "@truffle/hdwallet-provider": "^2.0.0",
     "prettier": "^2.5.1",
-    "prettier-plugin-solidity": "^1.0.0-beta.19"
+    "prettier-plugin-solidity": "^1.0.0-beta.19",
+    "web3": "^1.6.1"
   }
 }
