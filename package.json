@@ -7,9 +7,10 @@
     "dev": "lite-server",
     "format": "prettier --ignore-path '.gitignore' --write '**/*.{sol,js,json,md}'",
     "test": "truffle test",
-    "zokrates": "yarn zokrates-run && yarn zokrates-mv && yarn format",
-    "zokrates-run": "docker run -it -v ${PWD}/zokrates/code:/home/zokrates/code zokrates/zokrates:0.7.10 sh /home/zokrates/code/.run-zokrates.sh",
-    "zokrates-mv": "mv zokrates/code/verifier.sol contracts/Verifier.sol && mv zokrates/code/proof.json test/proof.json",
+    "zokrates": "docker run -it -v ${INIT_CWD}:/home/zokrates/code -w /home/zokrates/code zokrates/zokrates:0.7.10 zokrates",
+    "zokrates-all": "yarn zokrates-run && yarn zokrates-cp && yarn format",
+    "zokrates-run": "docker run -it -v ${PWD}/zokrates/code:/home/zokrates/code -w /home/zokrates/code zokrates/zokrates:0.7.10 sh .run-zokrates.sh",
+    "zokrates-cp": "cp zokrates/code/verifier.sol contracts/Verifier.sol && cp zokrates/code/proof.json test/proof.json",
     "zokrates-clean": "git clean -xdf ./zokrates/code"
   },
   "keywords": [],

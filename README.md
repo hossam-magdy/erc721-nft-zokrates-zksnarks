@@ -18,22 +18,31 @@ Web3.js v1.5.3
 
 ## Using [ZoKrates](https://zokrates.github.io/gettingstarted.html) version `0.7.10`:
 
-`docker run -it -v ${PWD}/zokrates/code:/home/zokrates/code zokrates/zokrates:0.7.10 sh /home/zokrates/code/.run-zokrates.sh`
+![ZoKrates CLI](./zokrates.png)
 
-> shortcut: `yarn zokrates-run`
+> shortcut: `yarn zokrates-all`
+
+```
+cd zokrates/code
+yarn zokrates compile -i ./square/square.zok
+yarn zokrates setup
+yarn zokrates compute-witness -a 337 113569
+yarn zokrates generate-proof # generates `proof.json`
+yarn zokrates export-verifier
+yarn zokrates-cp && yarn format
+```
 
 [OR] the detailed/manual version:
 
 ```sh
-docker run -it -v ${PWD}/zokrates/code:/home/zokrates/code zokrates/zokrates:0.7.10 /bin/bash
-cd /home/zokrates/code
+docker run -it -v ${PWD}/zokrates/code:/home/zokrates/code -w /home/zokrates/code zokrates/zokrates:0.7.10 /bin/bash
 
 # ref: https://zokrates.github.io/gettingstarted.html
 # compile - Generates: `out` binary
 zokrates compile -i ./square/square.zok
 # perform the setup phase - Generates: `proving.key` and `verification.key` (uses `out` binary)
 zokrates setup
-# execute the program - Generates: `witness`
+# execute the program - Generates: `witness` (uses `out` binary)
 zokrates compute-witness -a 337 113569
 # generate a proof of computation - Generates: `proof.json` (uses `proving.key` and `witness`)
 zokrates generate-proof

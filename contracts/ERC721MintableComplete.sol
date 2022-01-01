@@ -13,21 +13,15 @@ import "./ERC721Mintable/ERC721Metadata.sol";
 //      -calls the superclass mint and setTokenURI functions
 
 contract ERC721MintableComplete is ERC721Metadata {
-    constructor()
-        ERC721Metadata(
-            "HCustomERC721Token",
-            "HNFT",
-            "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/"
-        )
-    {}
+    string private _name = "HCustomERC721Token";
+    string private _symbol = "HNFT";
+    string private _baseTokenURI =
+        "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/";
 
-    function mint(
-        address to,
-        uint256 tokenId,
-        string memory tokenURI
-    ) public onlyOwner returns (bool) {
+    constructor() ERC721Metadata(_name, _symbol, _baseTokenURI) {}
+
+    function mint(address to, uint256 tokenId) public onlyOwner {
         _mint(to, tokenId);
-        _setTokenURI(tokenId, tokenURI);
-        return true;
+        _setTokenURI(tokenId);
     }
 }

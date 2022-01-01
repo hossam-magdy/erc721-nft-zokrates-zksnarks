@@ -1,8 +1,5 @@
 const ERC721MintableComplete = artifacts.require("ERC721MintableComplete");
 
-const BASE_URI =
-  "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/";
-
 contract("TestERC721Mintable", (accounts) => {
   const [account1, account2] = accounts;
 
@@ -11,9 +8,9 @@ contract("TestERC721Mintable", (accounts) => {
     beforeEach(async () => {
       contract = await ERC721MintableComplete.new({ from: account1 });
       // TODO: mint multiple tokens
-      await contract.mint(account1, 1, BASE_URI);
-      await contract.mint(account2, 2, BASE_URI);
-      await contract.mint(account1, 3, BASE_URI);
+      await contract.mint(account1, 1);
+      await contract.mint(account2, 2);
+      await contract.mint(account1, 3);
     });
 
     it("should return total supply", async () => {
@@ -59,7 +56,7 @@ contract("TestERC721Mintable", (accounts) => {
     it("should fail when minting when address is not contract owner", async () => {
       let error;
       try {
-        await contract.mint(account1, 1, BASE_URI, { from: account2 });
+        await contract.mint(account1, 1, { from: account2 });
       } catch (e) {
         error = e;
       }
